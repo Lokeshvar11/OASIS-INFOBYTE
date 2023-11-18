@@ -1,0 +1,115 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
+import string
+df = pd.read_csv('spam.csv', encoding='latin-1')
+print(df.info())
+print(df.isnull().sum())
+plt.figure(figsize=(10,5))
+df['v2'].value_counts().plot(kind='bar')
+plt.title('Distribution of Spam and Non-Spam Emails')
+plt.show()
+df['v2'] = df['v2'].apply(lambda x: x.translate(str.maketrans('', '', string.punctuation)))
+df['v2'] = df['v2'].apply(lambda x: x.lower())
+
+X = df['v2'].values
+y = df['v1'].values
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+vectorizer = CountVectorizer()
+X_train_counts = vectorizer.fit_transform(X_train)
+
+classifier = MultinomialNB()
+classifier.fit(X_train_counts, y_train)
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
+import string
+df = pd.read_csv('spam.csv', encoding='latin-1')
+print(df.info())
+print(df.isnull().sum())
+plt.figure(figsize=(10,5))
+df['v2'].value_counts().plot(kind='bar')
+plt.title('Distribution of Spam and Non-Spam Emails')
+plt.show()
+df['v2'] = df['v2'].apply(lambda x: x.translate(str.maketrans('', '', string.punctuation)))
+df['v2'] = df['v2'].apply(lambda x: x.lower())
+X = df['v2'].values
+y = df['v1'].values
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+vectorizer = CountVectorizer()
+X_train_counts = vectorizer.fit_transform(X_train)
+classifier = MultinomialNB()
+classifier.fit(X_train_counts, y_train)
+X_test_counts = vectorizer.transform(X_test)
+y_pred = classifier.predict(X_test_counts)
+print('Accuracy:', accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
+input_email = ["FREE viagra for you ! Call now to receive a FREE consultation on a beautiful garden with an expert"]
+input_email_counts = vectorizer.transform(input_email)
+predicted_spam = classifier.predict(input_email_counts)
+
+print('Predicted Spam:', predicted_spam[0])
+
+
+------------------------------------------------------------
+
+Following the procedures below :
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import classification_report, confusion_matrix
+
+df = pd.read_csv('spam.csv', encoding='latin-1')
+
+df.info()
+df.isnull().sum()
+
+plt.figure(figsize=(10,5))
+df['v2'].value_counts().plot(kind='bar')
+plt.title('Distribution of Spam and Non-Spam Emails')
+plt.show()
+
+import string
+
+df['v2'] = df['v2'].apply(lambda x: x.translate(str.maketrans('', '', string.punctuation)))
+df['v2'] = df['v2'].apply(lambda x: x.lower())
+
+X = df['v2'].values
+y = df['v1'].values
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
+vectorizer = CountVectorizer()
+X_train_counts = vectorizer.fit_transform(X_train)
+
+classifier = MultinomialNB()
+classifier.fit(X_train_counts, y_train)
+
+X_test_counts = vectorizer.transform(X_test)
+y_pred = classifier.predict(X_test_counts)
+
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))
+
+input_email = ["FREE viagra for you ! Call now to receive a FREE consultation on a beautiful garden with an expert"]
+input_email_counts = vectorizer.transform(input_email)
+predicted_spam = classifier.predict(input_email_counts)
+
+print('Predicted Spam:', predicted_spam[0])

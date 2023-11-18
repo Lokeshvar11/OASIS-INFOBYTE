@@ -1,0 +1,84 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+df = pd.read_csv(url, names=names)
+
+df.head()
+df.info()
+df.describe()
+sns.pairplot(df, hue='class')
+plt.show()
+
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
+classifier = KNeighborsClassifier(n_neighbors=5)
+classifier.fit(X_train, y_train)
+
+y_pred = classifier.predict(X_test)
+
+confusion_mat = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix: \n", confusion_mat)
+
+classification_report = classification_report(y_test, y_pred)
+print("Classification Report: \n", classification_report)
+
+sns.heatmap(confusion_mat, annot=True, cmap='Blues')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+plt.show()
+
+-------------------------------------------------------------------------
+Following the procedures below :
+
+pip install pandas numpy scikit-learn matplotlib
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+df = pd.read_csv(url, names=names)
+
+df.head()
+df.info()
+df.describe()
+sns.pairplot(df, hue='class')
+plt.show()
+
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
+classifier = KNeighborsClassifier(n_neighbors=5)
+classifier.fit(X_train, y_train)
+
+y_pred = classifier.predict(X_test)
+
+confusion_mat = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix: \n", confusion_mat)
+
+classification_report = classification_report(y_test, y_pred)
+print("Classification Report: \n", classification_report)
+
+sns.heatmap(confusion_mat, annot=True, cmap='Blues')
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+plt.show()	
